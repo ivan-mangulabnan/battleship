@@ -51,3 +51,29 @@ describe ("isShipPresent method", () => {
   })
 
 })
+
+describe ("getShipNode method", () => {
+  let game;
+
+  beforeEach(() => {
+    game = new Gameboard();
+  })
+
+  test ("getShipNode returns the right ShipNode", () => {
+    const ship1 = new Ship();
+    const ship2 = new Ship();
+    const notRecordedShip = new Ship();
+
+    const shipNode1 = new ShipNode(ship1);
+    const shipNode2 = new ShipNode(ship2);
+
+    game.shipNodes[0] = shipNode1;
+    game.shipNodes[1] = shipNode2;
+
+    expect(game.getShipNode(ship1)).toBe(shipNode1);
+    expect(game.getShipNode(ship2)).toBe(shipNode2);
+    expect(game.getShipNode(ship1)).not.toBe(shipNode2);
+    expect(game.getShipNode(notRecordedShip)).toBeUndefined();
+  })
+
+})
