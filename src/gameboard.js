@@ -10,6 +10,10 @@ export class Gameboard {
   addShipNode (shipNode) {
     this.shipNodes.push(shipNode);
   }
+
+  isShipPresent (ship) {
+    return this.shipNodes.some(shipNode => shipNode.ship === ship);
+  }
 }
 
 export class ShipNode {
