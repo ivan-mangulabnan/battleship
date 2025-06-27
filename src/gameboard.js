@@ -6,6 +6,10 @@ export class Gameboard {
   createShipNode (ship) {
     return new ShipNode(ship);
   }
+
+  addShipNode (shipNode) {
+    this.shipNodes.push(shipNode);
+  }
 }
 
 export class ShipNode {
