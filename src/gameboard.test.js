@@ -30,3 +30,24 @@ describe ("addShipNode method", () => {
   })
 
 })
+
+describe ("isShipPresent method", () => {
+  let game;
+
+  beforeEach(() => {
+    game = new Gameboard();
+  })
+
+  test ("isShipPresent returns the right boolean", () => {
+    const ship1 = new Ship();
+    const ship2 = new Ship();
+
+    const shipNode1 = new ShipNode(ship1);
+
+    game.shipNodes[0] = shipNode1;
+
+    expect(game.isShipPresent(ship1)).toBeTruthy();
+    expect(game.isShipPresent(ship2)).toBeFalsy();
+  })
+
+})
