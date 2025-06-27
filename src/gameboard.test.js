@@ -77,3 +77,39 @@ describe ("getShipNode method", () => {
   })
 
 })
+
+describe ("placeShip method", () => {
+  let game;
+
+  beforeEach(() => {
+    game = new Gameboard();
+  })
+
+  test ("placeShip places a shipNode", () => {
+    const ship = new Ship();
+    game.placeShip(ship, [0, 0]);
+    expect(game.shipNodes.length).toBe(1);
+  })
+
+  test ("placeShip places the correct shipNode", () => {
+    const ship = new Ship();
+    game.placeShip(ship, [0, 0]);
+    expect(game.shipNodes[0]).toBe(game.getShipNode(ship));
+  })
+
+  test ("placeShip does not duplicate", () => {
+    const ship = new Ship();
+    game.placeShip(ship, [0, 0]);
+    game.placeShip(ship, [0, 1]);
+    expect(game.shipNodes.length).toBe(1);
+  })
+
+  test ("placeShip add locations to existing shipNode", () => {
+    const ship = new Ship();
+    game.placeShip(ship, [0, 0]);
+    game.placeShip(ship, [0, 1]);
+    const targetShip = game.getShipNode(ship);
+    expect(targetShip.locations).toEqual([[0, 0], [0, 1]]);
+  })
+
+})
