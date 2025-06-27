@@ -3,6 +3,20 @@ export class Gameboard {
     this.shipNodes = [];
   }
 
+  placeShip (ship, coordinates) {
+    const isShipPresent = this.isShipPresent(ship);
+    
+    if (isShipPresent) {
+      const targetShip = this.getShipNode(ship);
+      targetShip.locations.push(coordinates);
+      return;
+    }
+
+    const newShipNode = this.createShipNode(ship);
+    newShipNode.locations.push(coordinates);
+    this.addShipNode(newShipNode);
+  }
+
   createShipNode (ship) {
     return new ShipNode(ship);
   }
