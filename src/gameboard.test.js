@@ -15,3 +15,18 @@ describe ("createShipNode method", () => {
   })
 
 })
+
+describe ("addShipNode method", () => {
+  let game;
+
+  beforeEach(() => {
+    game = new Gameboard();
+  })
+
+  test ("addShipNode pushes ShipNode to Gameboard shipNodes", () => {
+    const shipNode = new ShipNode(new Ship());
+    game.addShipNode(shipNode);
+    expect(game.shipNodes[0]).toBe(shipNode);
+  })
+
+})
