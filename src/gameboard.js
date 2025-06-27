@@ -14,6 +14,10 @@ export class Gameboard {
   isShipPresent (ship) {
     return this.shipNodes.some(shipNode => shipNode.ship === ship);
   }
+
+  getShipNode (ship) {
+    return this.shipNodes.find(shipNode => shipNode.ship === ship);
+  }
 }
 
 export class ShipNode {
