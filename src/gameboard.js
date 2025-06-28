@@ -49,6 +49,12 @@ export class Gameboard {
 
     return targetShip ? targetShip : null;
   }
+
+  updateHitShots (shipNode, coordinates) {
+    const ship = shipNode.ship;
+    this.hitShots.push(coordinates);
+    ship.hit();
+  }
 }
 
 export class ShipNode {
