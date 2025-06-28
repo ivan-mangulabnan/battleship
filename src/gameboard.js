@@ -55,6 +55,10 @@ export class Gameboard {
     this.hitShots.push(coordinates);
     ship.hit();
   }
+
+  updateMissedShots (coordinates) {
+    this.missedShots.push(coordinates);
+  }
 }
 
 export class ShipNode {
