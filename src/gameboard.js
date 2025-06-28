@@ -35,6 +35,13 @@ export class Gameboard {
     return this.shipNodes.find(shipNode => shipNode.ship === ship);
   }
 
+  receiveAttack (coordinates) {
+    const targetShipNode = this.getHitShip(coordinates);
+
+    if (targetShipNode) this.updateHitShots(targetShipNode, coordinates);
+    else this.updateMissedShots(coordinates);
+  }
+
   getHitShip (coordinates) {
     let targetShip;
 
