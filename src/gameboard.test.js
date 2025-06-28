@@ -160,3 +160,22 @@ describe ("updateHitShot method", () => {
   });
 
 })
+
+describe ("updateMissedShots method", () => {
+  let game;
+  let ship;
+
+  beforeEach(() => {
+    game = new Gameboard();
+    ship = new Ship();
+    game.placeShip(ship, [0, 0]);
+  })
+
+  test ("updates the gameboard's missedShots property", () => {
+    const attackCords = [0, 1];
+    game.updateMissedShots(attackCords);
+    expect(game.missedShots.length).toBe(1);
+    expect(game.missedShots).toEqual([[0, 1]]);
+  })
+
+})
