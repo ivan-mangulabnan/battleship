@@ -114,6 +114,49 @@ describe ("placeShip method", () => {
 
 })
 
+describe ("receiveAttack method", () => {
+  let game;
+  let ship1;
+  let ship2;
+
+  beforeEach(() => {
+    game = new Gameboard();
+    ship1 = new Ship();
+    ship2 = new Ship();
+
+    for (let i = 0; i < 3; i++) {
+      game.placeShip(ship1, [0, i]);
+      game.placeShip(ship2, [3, i]);
+    }
+  })
+
+  test ("records missed shots", () => {
+    game.receiveAttack([1, 1]);
+    expect(game.missedShots[0]).toEqual([1, 1]);
+  })
+
+  test ("records hit shots", () => {
+    game.receiveAttack([0, 0]);
+    expect(game.hitShots[0]).toEqual([0, 0]);
+  })
+
+  test ("target ship records hits", () => {
+    game.receiveAttack([0, 0]);
+    expect(ship1.damage).toBe(1);
+  })
+
+  test ("target ship doesn't record miss", () => {
+    game.receiveAttack([1, 1]);
+    expect(ship1.damage).toBe(0);
+  })
+
+  test ("non-target ship doesn't record hits", () => {
+    game.receiveAttack([0, 2]);
+    expect(ship2.damage).toBe(0);
+  })
+
+})
+
 describe ("getHitShip method", () => {
   let game;
   let ship;
