@@ -113,3 +113,25 @@ describe ("placeShip method", () => {
   })
 
 })
+
+describe ("getHitShip method", () => {
+  let game;
+  let ship;
+
+  beforeEach(() => {
+    game = new Gameboard();
+    ship = new Ship();
+    game.placeShip(ship, [0, 0]);
+  })
+
+  test ("getHitShip returns the ship if it's hit", () => {
+    const hitShip = game.getHitShip([0,0]);
+    expect(hitShip).toBe(game.shipNodes[0]);
+  })
+
+  test ("getHitShip returns null if no ship is hit", () => {
+    const hitShip = game.getHitShip([0,1]);
+    expect(hitShip).toBeNull();
+  })
+
+})
