@@ -135,3 +135,28 @@ describe ("getHitShip method", () => {
   })
 
 })
+
+describe ("updateHitShot method", () => {
+  let game;
+  let ship;
+
+  beforeEach(() => {
+    game = new Gameboard();
+    ship = new Ship();
+    game.placeShip(ship, [0, 0]);
+  })
+
+  test ("updates the gameboard's hitShots property", () => {
+    const attackCords = [0, 0];
+    game.updateHitShots(game.shipNodes[0], attackCords);
+    expect(game.hitShots.length).toBe(1);
+    expect(game.hitShots).toEqual([[0, 0]]);
+  })
+
+  test ("activates the hit method of ship", () => {
+    const attackCords = [0, 0];
+    game.updateHitShots(game.shipNodes[0], attackCords);
+    expect(ship.damage).toBe(1);
+  });
+
+})
