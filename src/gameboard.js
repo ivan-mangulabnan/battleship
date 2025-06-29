@@ -66,6 +66,10 @@ export class Gameboard {
   updateMissedShots (coordinates) {
     this.missedShots.push(coordinates);
   }
+
+  areAllShipsSunk () {
+    return this.shipNodes.every(shipNode => shipNode.ship.isSunk());
+  }
 }
 
 export class ShipNode {
