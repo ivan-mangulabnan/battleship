@@ -222,3 +222,43 @@ describe ("updateMissedShots method", () => {
   })
 
 })
+
+describe ("areAllShipsSunk method", () => {
+  let game;
+  let ship1;
+  let ship2;
+  let ship3;
+
+  beforeEach(() => {
+    game = new Gameboard();
+    ship1 = new Ship();
+    ship2 = new Ship();
+    ship3 = new Ship();
+    for (let i = 0; i < 3; i++) {
+      game.placeShip(ship1, [1, i]);
+      game.placeShip(ship2, [2, i]);
+      game.placeShip(ship3, [3, i]);
+    }
+  })
+
+  test ("reports if all ships sunk", () => {
+    for (let i = 0; i < 3; i++) {
+      game.receiveAttack([1, i]);
+      game.receiveAttack([2, i]);
+      game.receiveAttack([3, i]);
+    }
+
+    expect(game.areAllShipsSunk()).toBeTruthy();
+  })
+
+  test ("falsy if all ships arent sunk", () => {
+    for (let i = 0; i < 3; i++) {
+      game.receiveAttack([1, i]);
+      game.receiveAttack([2, i]);
+    }
+    game.receiveAttack([3, 2]);
+    
+    expect(game.areAllShipsSunk()).toBeFalsy();
+  })
+
+})
