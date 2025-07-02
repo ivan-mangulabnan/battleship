@@ -9,6 +9,14 @@ export class Gameboard {
     this.updateCoordinates(ship, coordinates);
   }
 
+  moveShip (ship, newCordsArr) {
+    this.removeOldCoordinates(ship);
+
+    for (const coord of newCordsArr) {
+      this.placeShip(ship, coord);
+    }
+  }
+
   updateShipLocations (ship, coords) {
     const locations = this.shipToCoords.get(ship) || new Set();
     locations.add(coords);
@@ -18,5 +26,15 @@ export class Gameboard {
 
   updateCoordinates (ship, coords) {
     this.coordsToShip.set(coords, ship);
+  }
+
+  removeOldCoordinates (ship) {
+    const oldLocations = this.shipToCoords.get(ship);
+
+    for (const coords of oldLocations) {
+      this.coordsToShip.delete(coords);
+    }
+
+    this.shipToCoords.delete(ship);
   }
 }
