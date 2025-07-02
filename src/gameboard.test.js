@@ -1,7 +1,7 @@
 import { Gameboard } from './gameboard.js';
 import { Ship } from './ship.js';
 
-describe ("Gameboard methods", () => {
+describe ("placeShip methods", () => {
   let game;
   let ship1;
   let ship2;
@@ -12,6 +12,13 @@ describe ("Gameboard methods", () => {
     ship1 = new Ship();
     ship2 = new Ship();
     ship3 = new Ship();
+  })
+
+  test ("placeShip set ship to shipToCoords and coordsToShip property", () => {
+    const coords = `00`
+    game.placeShip(ship1, coords);
+    expect(game.shipToCoords.has(ship1)).toBeTruthy();
+    expect(game.coordsToShip.has(coords)).toBeTruthy();
   })
 
   test ("updateShipLocations set ship to shipToCoords property", () => {
