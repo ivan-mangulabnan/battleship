@@ -14,12 +14,12 @@ describe ("Gameboard methods", () => {
     ship3 = new Ship();
   })
 
-  test ("updateShipLocations saves ship to shipToCoords property", () => {
+  test ("updateShipLocations set ship to shipToCoords property", () => {
     game.updateShipLocations(ship1, `00`);
     expect(game.shipToCoords.has(ship1)).toBeTruthy();
   })
 
-  test ("updateShipLocations saves location with the ship as key", () => {
+  test ("updateShipLocations set location with the ship as key", () => {
     game.updateShipLocations(ship1, `00`);
     game.updateShipLocations(ship1, `01`);
 
@@ -27,6 +27,32 @@ describe ("Gameboard methods", () => {
     expect(locations.has(`00`)).toBeTruthy();
     expect(locations.has(`01`)).toBeTruthy();
     expect(locations.has(`02`)).toBeFalsy();
+  })
+
+  test ("updateCoordinates set coordinates of ships", () => {
+    const coords = '00';
+    game.updateCoordinates(ship1, coords);
+    expect(game.coordsToShip.has(coords)).toBeTruthy();
+
+    const coords2 = '01';
+    game.updateCoordinates(ship1, coords2);
+    expect(game.coordsToShip.has(coords2)).toBeTruthy();
+
+    const coords3 = '02';
+    expect(game.coordsToShip.has(coords3)).toBeFalsy();
+  })
+
+  test ("updateCoordinates set correct ship reference", () => {
+    const coords = '00';
+    game.updateCoordinates(ship1, coords);
+    expect(game.coordsToShip.get(coords)).toBe(ship1);
+
+    const coords2 = '01';
+    game.updateCoordinates(ship1, coords2);
+    expect(game.coordsToShip.get(coords2)).toBe(ship1);
+
+    const coords3 = '02';
+    expect(game.coordsToShip.get(coords3)).toBeFalsy();
   })
 
 })
