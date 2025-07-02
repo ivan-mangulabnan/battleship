@@ -63,3 +63,48 @@ describe ("placeShip methods", () => {
   })
 
 })
+
+describe ("moveShip methods", () => {
+  let game;
+  let ships = [];
+
+
+  beforeEach(() => {
+    game = new Gameboard();
+
+    for (let i = 0; i < 3; i++) {
+      ships[i] = new Ship();
+      game.placeShip(ships[i], `${i}0`);
+      game.placeShip(ships[i], `${i}2`);
+      game.placeShip(ships[i], `${i}4`);
+    }
+  })
+
+  test ("removeOldCoordinates removes all targetShip's coordinates", () => {
+    const targetShip = ships[0];
+    const notTarget = ships[1];
+
+    const allLocations = game.shipToCoords.get(targetShip);
+
+    game.removeOldCoordinates(targetShip);
+    for (const coords of allLocations) {
+      expect(game.coordsToShip.get(coords)).toBeFalsy();
+    }
+    
+    expect(game.shipToCoords.has(targetShip)).toBeFalsy();
+  })
+
+  test ("removeOldCoordinates doesn't remove notTarget ships", () => {
+    const targetShip = ships[0];
+    const notTarget = ships[1];
+
+    const allLocations = game.shipToCoords.get(notTarget);
+
+    game.removeOldCoordinates(targetShip);
+    for (const coords of allLocations) {
+      expect(game.coordsToShip.get(coords)).toBe(notTarget);
+    }
+    
+    expect(game.shipToCoords.get(notTarget)).toBe(allLocations);
+  })
+})
