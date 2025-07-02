@@ -80,6 +80,25 @@ describe ("moveShip methods", () => {
     }
   })
 
+  test ("moveShip removes all targetShip's coordinates and replaces it with new coordinates", () => {
+    const newCoordinates = new Set(['80', '81', '82']);
+    const targetShip = ships[0];
+
+    const allLocations = game.shipToCoords.get(targetShip);
+    
+    game.moveShip(targetShip, newCoordinates);
+
+    for (const coords of allLocations) {
+      expect(game.coordsToShip.get(coords)).toBeFalsy();
+    }
+    
+    for (const coords of newCoordinates) {
+      expect(game.coordsToShip.get(coords)).toBe(targetShip);
+    }
+
+    expect(game.shipToCoords.get(targetShip)).toEqual(newCoordinates);
+  })
+
   test ("removeOldCoordinates removes all targetShip's coordinates", () => {
     const targetShip = ships[0];
     const notTarget = ships[1];
