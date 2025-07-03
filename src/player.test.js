@@ -17,8 +17,13 @@ describe ('Player class instantiation', () => {
     expect(player.board).toBeInstanceOf(Gameboard);
   })
 
-    test ('should already have 3 ships', () => {
+  test ('should already have 3 ships', () => {
     expect(player.ships.length).toBe(3);
+  })
+
+  test ('all ships positioned on the board', () => {
+    expect(player.board.coordsToShip.size).toBe(9);
+    expect(player.board.shipToCoords.size).toBe(3);
   })
 })
 
