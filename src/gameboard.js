@@ -41,4 +41,8 @@ export class Gameboard {
   isCoordsTaken (coords) {
     return this.coordsToShip.has(coords);
   }
+
+  isShipExists (ship) {
+    return this.shipToCoords.has(ship);
+  }
 }
