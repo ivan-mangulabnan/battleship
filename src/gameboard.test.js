@@ -152,3 +152,32 @@ describe ("isCoordsTaken method", () => {
   })
 
 })
+
+describe ("isShipExists method", () => {
+  let game;
+  let ships = [];
+
+
+  beforeEach(() => {
+    game = new Gameboard();
+
+    for (let i = 0; i < 3; i++) {
+      ships[i] = new Ship();
+      game.placeShip(ships[i], `${i}0`);
+      game.placeShip(ships[i], `${i}2`);
+      game.placeShip(ships[i], `${i}4`);
+    }
+  })
+
+  test ('isShipExists truthy when ships are placed', () => {
+    const notSavedShip = new Ship();
+    const shipKeys = game.shipToCoords.keys();
+    
+    Array.from(shipKeys).forEach(ship => {
+      expect(ships.includes(ship)).toBeTruthy();
+    })
+    
+    expect(game.shipToCoords.has(notSavedShip)).toBeFalsy();
+  })
+
+})
