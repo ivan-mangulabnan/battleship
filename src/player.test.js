@@ -2,7 +2,7 @@ import { Player } from "./player.js";
 import { Gameboard } from "./gameboard.js";
 import { Ship } from "./ship.js";
 
-describe ('Player class', () => {
+describe ('Player class instantiation', () => {
   let player;
 
   beforeEach(() => {
@@ -11,6 +11,10 @@ describe ('Player class', () => {
 
   test ('ships property should be instances of Ship class', () => {
     player.ships.forEach(ship => expect(ship).toBeInstanceOf(Ship));
+  })
+
+  test ('board property should be instance of Gameboard class', () => {
+    expect(player.board).toBeInstanceOf(Gameboard);
   })
 })
 
