@@ -127,3 +127,28 @@ describe ("moveShip methods", () => {
     expect(game.shipToCoords.get(notTarget)).toBe(allLocations);
   })
 })
+
+describe ("isCoordsTaken method", () => {
+  let game;
+  let ships = [];
+
+
+  beforeEach(() => {
+    game = new Gameboard();
+
+    for (let i = 0; i < 3; i++) {
+      ships[i] = new Ship();
+      game.placeShip(ships[i], `${i}0`);
+      game.placeShip(ships[i], `${i}2`);
+      game.placeShip(ships[i], `${i}4`);
+    }
+  })
+
+  test ('isCoordsTaken truthy when coords are already taken', () => {
+    const savedPosition = '00';
+    const notSaved = '01';
+    expect(game.isCoordsTaken(savedPosition)).toBeTruthy();
+    expect(game.isCoordsTaken(notSaved)).toBeFalsy();
+  })
+
+})
