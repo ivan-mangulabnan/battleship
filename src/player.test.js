@@ -16,6 +16,10 @@ describe ('Player class instantiation', () => {
   test ('board property should be instance of Gameboard class', () => {
     expect(player.board).toBeInstanceOf(Gameboard);
   })
+
+    test ('should already have 3 ships', () => {
+    expect(player.ships.length).toBe(3);
+  })
 })
 
 describe ('createShips method', () => {
