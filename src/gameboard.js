@@ -37,4 +37,8 @@ export class Gameboard {
 
     this.shipToCoords.delete(ship);
   }
+
+  isCoordsTaken (coords) {
+    return this.coordsToShip.has(coords);
+  }
 }
