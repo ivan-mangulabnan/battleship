@@ -30,15 +30,15 @@ export class Player {
 }
 
 export class RealPlayer extends Player {
-  constructor (name) {
+  constructor () {
     super();
-    this.name = name;
+    this.type = 'player';
   }
 }
 
 export class ComputerPlayer extends Player {
   constructor () {
     super();
-    this.name = "Computer";
+    this.type = 'computer';
   }
 }
