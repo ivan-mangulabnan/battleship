@@ -210,3 +210,41 @@ describe ("isLocationFull method", () => {
   })
 
 })
+
+describe ("receiveAttack method", () => {
+  let game;
+  let ships = [];
+
+
+  beforeEach(() => {
+    game = new Gameboard();
+
+    for (let i = 0; i < 3; i++) {
+      ships[i] = new Ship();
+      game.placeShip(ships[i], `${i}0`);
+      game.placeShip(ships[i], `${i}2`);
+      game.placeShip(ships[i], `${i}4`);
+    }
+  })
+
+  test ('receiveAttack hits the ship', () => {
+    const targetCoords1 = '00';
+    const targetShip = ships[0];
+    const notTarget = ships[1];
+
+    game.receiveAttack(targetCoords1);
+    expect(targetShip.damage).toBe(1);
+    expect(notTarget.damage).toBe(0);
+    expect(game.missedShots.has(targetCoords1)).toBeFalsy();
+  })
+
+  test ('receiveAttack misses the ship', () => {
+    const targetCoords1 = '01';
+
+    game.receiveAttack(targetCoords1);
+    expect(game.missedShots.has(targetCoords1)).toBeTruthy();
+
+    ships.forEach(ship => expect(ship.damage).toBe(0));
+  })
+
+})
