@@ -28,6 +28,11 @@ export class Gameboard {
     this.missedShots.add(coords);
   }
 
+  areAllShipsSunk () {
+    const ships = Array.from(this.shipToCoords.keys());
+    return ships.every(ship => ship.isSunk());
+  }
+
   updateShipLocations (ship, coords) {
     const locations = this.shipToCoords.get(ship) || new Set();
     locations.add(coords);
