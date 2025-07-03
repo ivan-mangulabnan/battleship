@@ -45,4 +45,10 @@ export class Gameboard {
   isShipExists (ship) {
     return this.shipToCoords.has(ship);
   }
+
+  isLocationFull (ship) {
+    const LOCATION_LIMIT = 3;
+    const locations = this.shipToCoords.get(ship);
+    return locations.size === LOCATION_LIMIT;
+  }
 }
