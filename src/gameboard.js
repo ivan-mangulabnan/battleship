@@ -2,6 +2,7 @@ export class Gameboard {
   constructor () {
     this.coordsToShip = new Map();
     this.shipToCoords = new Map();
+    this.missedShots = new Set();
   }
 
   placeShip (ship, coordinates) {
@@ -15,6 +16,16 @@ export class Gameboard {
     for (const coord of newCordsArr) {
       this.placeShip(ship, coord);
     }
+  }
+
+  receiveAttack (coords) {
+    if (this.coordsToShip.has(coords)) {
+      const ship = this.coordsToShip.get(coords);
+      ship.hit();
+      return;
+    }
+
+    this.missedShots.add(coords);
   }
 
   updateShipLocations (ship, coords) {
