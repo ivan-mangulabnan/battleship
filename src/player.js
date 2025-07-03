@@ -1,7 +1,7 @@
 import { Gameboard } from "./gameboard.js";
 import { Ship } from './ship.js';
 
-class Player {
+export class Player {
   constructor () {
     this.board = new Gameboard();
     this.ships = this.createShips();
