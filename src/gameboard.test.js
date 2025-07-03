@@ -248,3 +248,39 @@ describe ("receiveAttack method", () => {
   })
 
 })
+
+describe ("areAllShipsSunk method", () => {
+  let game;
+  let ships = [];
+
+
+  beforeEach(() => {
+    game = new Gameboard();
+
+    for (let i = 0; i < 3; i++) {
+      ships[i] = new Ship();
+      game.placeShip(ships[i], `${i}0`);
+      game.placeShip(ships[i], `${i}2`);
+      game.placeShip(ships[i], `${i}4`);
+    }
+  })
+
+  test ('report truthy if all are sunk', () => {
+    for (let i = 0; i < 3; i++) {
+      game.receiveAttack(`${i}0`);
+      game.receiveAttack(`${i}0`);
+      game.receiveAttack(`${i}4`);
+    }
+
+    expect(game.areAllShipsSunk()).toBeTruthy();
+  })
+
+  test ('report falsy if 1 ship sunk', () => {
+    for (let i = 0; i < 3; i++) {
+      game.receiveAttack(`${i}0`);
+    }
+
+    expect(game.areAllShipsSunk()).toBeFalsy();
+  })
+
+})
