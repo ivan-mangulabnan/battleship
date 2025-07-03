@@ -27,6 +27,17 @@ export class Player {
     }
   }
 
+  getShipLocations () {
+    const shipMap = this.board.shipToCoords;
+
+    const map = [];
+    for (const [_, locations] of shipMap) {
+      map.push([...locations]);
+    }
+
+    return map;
+  }
+
 }
 
 export class RealPlayer extends Player {
