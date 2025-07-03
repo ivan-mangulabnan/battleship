@@ -181,3 +181,32 @@ describe ("isShipExists method", () => {
   })
 
 })
+
+describe ("isLocationFull method", () => {
+  let game;
+  let ships = [];
+
+
+  beforeEach(() => {
+    game = new Gameboard();
+
+    for (let i = 0; i < 3; i++) {
+      ships[i] = new Ship();
+    }
+  })
+
+  test ('isLocationFull truthy when ship locations count is exactly 3', () => {
+    game.placeShip(ships[0], '00');
+    expect(game.isLocationFull(ships[0])).toBeFalsy();
+
+    game.placeShip(ships[0], '01');
+    expect(game.isLocationFull(ships[0])).toBeFalsy();
+
+    game.placeShip(ships[0], '02');
+    expect(game.isLocationFull(ships[0])).toBeTruthy();
+
+    game.placeShip(ships[0], '03');
+    expect(game.isLocationFull(ships[0])).toBeFalsy();
+  })
+
+})
