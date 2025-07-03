@@ -38,3 +38,33 @@ describe ('createShips method', () => {
     expect(player.ships.length).toBe(3);
   })
 })
+
+describe ('placeShipsRandomly method', () => {
+  let player;
+
+  beforeEach(() => {
+    player = new Player();
+  })
+
+  test ('places all 3 ships of Player instance', () => {
+    const ships = player.board.shipToCoords.keys();
+
+    for (const ship of ships) {
+      expect(player.ships.includes(ship)).toBeTruthy();
+    }
+  })
+
+  test ('all 3 ships have exactly 3 locations each', () => {
+    const ships = player.board.shipToCoords.keys();
+
+    for (const ship of ships) {
+      const shipLocations = player.board.shipToCoords.get(ship);
+      expect(shipLocations.size).toBe(3);
+    }
+  })
+
+  test ('board coordinates of ships have exactly 9 coordinates', () => {
+    const coordinates = player.board.coordsToShip;
+    expect(coordinates.size).toBe(9);
+  })
+})
