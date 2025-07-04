@@ -54,8 +54,11 @@ export class Gameboard {
     this.shipToCoords.delete(ship);
   }
 
-  isCoordsTaken (coords) {
-    return this.coordsToShip.has(coords);
+  isCoordsTaken (ship, coords) {
+    for (const [keyShip, locSet] of this.shipToCoords) {
+      if (ship === keyShip) continue;
+      return locSet.has(coords);
+    }
   }
 
   isShipExists (ship) {
