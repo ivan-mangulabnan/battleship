@@ -144,11 +144,16 @@ describe ("isCoordsTaken method", () => {
     }
   })
 
-  test ('isCoordsTaken truthy when coords are already taken', () => {
-    const savedPosition = '00';
-    const notSaved = '01';
-    expect(game.isCoordsTaken(savedPosition)).toBeTruthy();
-    expect(game.isCoordsTaken(notSaved)).toBeFalsy();
+  test ('skips reading the given ship', () => {
+    const targetShip = ships[0];
+    const result = game.isCoordsTaken(ships[0], '00');
+    expect(result).toBeFalsy();
+  })
+
+  test ('returns truthy if notTargeted ships contains the coordinates', () => {
+    const targetShip = ships[0];
+    const result = game.isCoordsTaken(ships[0], '12');
+    expect(result).toBeTruthy();
   })
 
 })
