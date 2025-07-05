@@ -54,11 +54,39 @@ export class Gameboard {
     this.shipToCoords.delete(ship);
   }
 
-  isCoordsTaken (ship, coords) {
+  isCoordsValid (ship, coords) {
+    const locArr = [];
     for (const [keyShip, locSet] of this.shipToCoords) {
       if (ship === keyShip) continue;
-      return locSet.has(coords);
+      locArr.push([...locSet]);
     }
+
+    const invalidSet = this.setInvalidSpaces(locArr);
+    return coords.some(coord => invalidSet.has(coord)) ? false : true;
+  }
+
+  setInvalidSpaces (locArr) {
+    const coords = this.setToRowCol(locArr);
+
+    const invalidSet = new Set();
+    for (const [row, col] of coords) {
+      for (let dRow = -1; dRow <= 1; dRow++) {
+        for (let dCol = -1; dCol <= 1; dCol++) {
+          const newRow = row + dRow;
+          const newCol = col + dCol;
+
+          if (newRow >= 0 && newRow <= 9 && newCol >= 0 && newCol <= 9) {
+            invalidSet.add(`${newRow}${newCol}`);
+          }
+        }
+      }
+    }
+
+    return invalidSet;
+  }
+
+  setToRowCol (locArr) {
+    return locArr.flat().map(str => [...str].map(coord => Number(coord)));
   }
 
   isShipExists (ship) {
