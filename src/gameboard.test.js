@@ -128,32 +128,35 @@ describe ("moveShip methods", () => {
   })
 })
 
-describe ("isCoordsTaken method", () => {
+describe ("isCoordsValid method", () => {
   let game;
-  let ships = [];
+  let ships;
 
 
   beforeEach(() => {
     game = new Gameboard();
+    ships = [new Ship(), new Ship(), new Ship()];
 
     for (let i = 0; i < 3; i++) {
-      ships[i] = new Ship();
-      game.placeShip(ships[i], `${i}0`);
-      game.placeShip(ships[i], `${i}2`);
-      game.placeShip(ships[i], `${i}4`);
+      game.placeShip(ships[0], `${9 - i}0`); // 90, 80, 70
+      game.placeShip(ships[1], `8${5 - i}`); // 85, 84, 83
+      game.placeShip(ships[2], `${5 - i}8`); // 58, 48, 38
     }
   })
 
-  test ('skips reading the given ship', () => {
+  test ('returns valid results', () => {
     const targetShip = ships[0];
-    const result = game.isCoordsTaken(ships[0], '00');
+    const result = game.isCoordsValid(targetShip, ['75', '74', '73']);
     expect(result).toBeFalsy();
-  })
 
-  test ('returns truthy if notTargeted ships contains the coordinates', () => {
-    const targetShip = ships[0];
-    const result = game.isCoordsTaken(ships[0], '12');
-    expect(result).toBeTruthy();
+    const result2 = game.isCoordsValid(targetShip, ['65', '64', '63']);
+    expect(result2).toBeTruthy();
+
+    const result3 = game.isCoordsValid(targetShip, ['80', '70', '60']);
+    expect(result3).toBeTruthy();
+
+    const result4 = game.isCoordsValid(targetShip, ['47', '37', '57']);
+    expect(result4).toBeFalsy();
   })
 
 })
@@ -286,6 +289,43 @@ describe ("areAllShipsSunk method", () => {
     }
 
     expect(game.areAllShipsSunk()).toBeFalsy();
+  })
+
+})
+
+describe ("setInvalidSpaces method", () => {
+  let game;
+
+  beforeEach(() => {
+    game = new Gameboard();
+  })
+
+  test ('setInvalidSpaces returns Set', () => {
+    const invalidSet = game.setInvalidSpaces(['00', '01', '02']);
+    
+    expect(invalidSet).toBeInstanceOf(Set);
+  })
+
+  test ('returns correct invalid spaces', () => {
+    const invalidSet = game.setInvalidSpaces(['00', '01', '02']);
+    const invalidSpaces = ['00', '01', '02', '03', '10', '11', '12', '13' ];
+    const result = invalidSpaces.every(cords => invalidSet.has(cords));
+
+    expect(result).toBeTruthy();
+
+    const invalidSet2 = game.setInvalidSpaces([['00', '01', '02'], ['04', '14', '24']]);
+    const invalidSpaces2 = ['00', '01', '02', '04', '14', '24', '03', '10', '11', '12', '13', '23', '33', '34', '35', '05', '15', '25'];
+    const result2 = invalidSpaces2.every(cords => invalidSet2.has(cords));
+
+    expect(result2).toBeTruthy();
+
+    console.log(invalidSet2);
+  })
+
+  test ('setToRowCol returns array of real row col', () => {
+    const rowCol = game.setToRowCol([['00', '01', '02'], ['20', '21']]);
+    
+    expect(rowCol).toEqual([[0,0], [0,1], [0,2], [2,0], [2,1]]);
   })
 
 })
