@@ -86,9 +86,9 @@ describe ('getShipLocations method', () => {
     location1 = ['00', '01', '02'];
     location2 = ['20', '21', '22'];
     location3 = ['40', '41', '42'];
-    player.board.moveShip(ship1, location1);
-    player.board.moveShip(ship2, location2);
-    player.board.moveShip(ship3, location3);
+    player.relocateShip(ship1, location1);
+    player.relocateShip(ship2, location2);
+    player.relocateShip(ship3, location3);
   })
 
   test ('getShipLocations returns array of arrays', () => {
@@ -131,5 +131,93 @@ describe ('getShipLocations method', () => {
     expect(shipLocs[0]).toEqual(location1);
     expect(shipLocs[1]).toEqual(location2);
     expect(shipLocs[2]).toEqual(location3);
+  })
+})
+
+describe ('Validations', () => {
+  let player;
+  let ship, locationArr, rowColArr;
+
+  beforeEach(() => {
+    player = new Player();
+    ship = player.ships[0];
+    locationArr = null;
+    rowColArr = null;
+  })
+
+  test ('isArray method', () => {
+    locationArr = {}
+    const isArray = player.isArray(locationArr);
+    expect(isArray).toBeFalsy();
+
+    locationArr = ['20', '21', '20'];
+    const isArray2 = player.isArray(locationArr);
+    expect(isArray2).toBeTruthy();
+  })
+
+  test ('isNaNContent method', () => {
+    rowColArr = [[2, 5], [2, 'a'], [2, 3]];
+    const isNaNContent = player.isNaNContent(rowColArr);
+    expect(isNaNContent).toBeFalsy();
+
+    rowColArr = [[2, ',']];
+    const isNaNContent2 = player.isNaNContent(rowColArr);
+    expect(isNaNContent2).toBeFalsy();
+
+    rowColArr = [[2,3], [2,4], [2,5]];
+    const isNaNContent3 = player.isNaNContent(rowColArr);
+    expect(isNaNContent3).toBeFalsy();
+  })
+
+  test ('isValidLength method', () => {
+    locationArr = ['21', '22', '23'];
+    const isValidLength = player.isValidLength(locationArr);
+    expect(isValidLength).toBeTruthy();
+
+    locationArr = ['-21', '22', '24'];
+    const isValidLength2 = player.isValidLength(locationArr);
+    expect(isValidLength2).toBeFalsy();
+
+    locationArr = ['2', '22', '23'];
+    const isValidLength3 = player.isValidLength(locationArr);
+    expect(isValidLength3).toBeFalsy();
+  })
+
+  test ('isInRange method', () => {
+    rowColArr = [[2,2], [2,3], [2,4]];
+    const isInRange = player.isInRange(rowColArr);
+    expect(isInRange).toBeTruthy();
+
+    rowColArr = [[-1, 2], [-1, 3], [-1, 4]];
+    const isInRange2 = player.isInRange(rowColArr);
+    expect(isInRange2).toBeFalsy();
+
+    rowColArr = [[10, 1], [10, 2], [10, 3]];
+    const isInRange3 = player.isInRange(rowColArr);
+    expect(isInRange3).toBeFalsy();
+  })
+
+  test ('isPositionValid enforces no diagonal ships and gaps between ships', () => {
+    // set predictable locations first.
+    player.relocateShip(player.ships[0], ['00', '01', '02']);
+    player.relocateShip(player.ships[1], ['20', '21', '22']);
+    player.relocateShip(player.ships[2], ['40', '41', '42']);
+
+    // now test.
+
+    const invalidLocation1 = [[1,0], [1,2], [1,4]];
+    const invalidLocation2 = [[4,0], [4,1], [5,2]];
+    const invalidLocation3 = [[0,9], [1,8], [2,7]];
+    const validLocation = [[6,0], [6,1], [6,2]];
+
+    const isPositionValid1 = player.isPositionValid(invalidLocation1);
+    const isPositionValid2 = player.isPositionValid(invalidLocation2);
+    const isPositionValid3 = player.isPositionValid(invalidLocation3);
+    const isPositionValid6 = player.isPositionValid(validLocation);
+
+    expect(isPositionValid1).toBeFalsy();
+    expect(isPositionValid2).toBeFalsy();
+    expect(isPositionValid3).toBeFalsy();
+    expect(isPositionValid6).toBeTruthy();
   })
 })
