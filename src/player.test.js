@@ -169,17 +169,31 @@ describe ('Validations', () => {
     expect(isNaNContent3).toBeFalsy();
   })
 
-  test ('isValidLength method', () => {
+  test ('isValidCoordsLength method', () => {
     locationArr = ['21', '22', '23'];
-    const isValidLength = player.isValidLength(locationArr);
+    const isValidLength = player.isValidCoordsLength(locationArr);
     expect(isValidLength).toBeTruthy();
 
     locationArr = ['-21', '22', '24'];
-    const isValidLength2 = player.isValidLength(locationArr);
+    const isValidLength2 = player.isValidCoordsLength(locationArr);
     expect(isValidLength2).toBeFalsy();
 
     locationArr = ['2', '22', '23'];
-    const isValidLength3 = player.isValidLength(locationArr);
+    const isValidLength3 = player.isValidCoordsLength(locationArr);
+    expect(isValidLength3).toBeFalsy();
+  })
+
+  test ('isValidArrLength method', () => {
+    locationArr = ['21', '22', '23'];
+    const isValidLength = player.isValidArrLength(locationArr);
+    expect(isValidLength).toBeTruthy();
+
+    locationArr = ['-21', '22', '24', '25'];
+    const isValidLength2 = player.isValidArrLength(locationArr);
+    expect(isValidLength2).toBeFalsy();
+
+    locationArr = ['2', '22'];
+    const isValidLength3 = player.isValidArrLength(locationArr);
     expect(isValidLength3).toBeFalsy();
   })
 
@@ -219,5 +233,90 @@ describe ('Validations', () => {
     expect(isPositionValid2).toBeFalsy();
     expect(isPositionValid3).toBeFalsy();
     expect(isPositionValid6).toBeTruthy();
+  })
+})
+
+describe ('isValid method', () => {
+  let player, targetShip;
+
+  beforeEach(() => {
+    player = new Player();
+    targetShip = player.ships[0];
+    player.relocateShip(targetShip, ['00', '01', '02']); // sets predictable locations
+    player.relocateShip(player.ships[1], ['20', '21', '22']);
+    player.relocateShip(player.ships[2], ['40', '41', '42']);
+  })
+
+  test ('fails if argument is an empty array', () => {
+    const anArray = [];
+    expect(player.isValid(targetShip, anArray)).toBe('empty array');
+  })
+
+  test ('fails if argument is not an array', () => {
+    const notAnArray = null;
+    const anArray = [];
+    expect(player.isValid(targetShip, notAnArray)).toBe('not array');
+    expect(player.isValid(targetShip, anArray)).not.toBe('not array');
+  })
+
+  test ("fails if the coordinates length is not equal to 2", () => {
+    const overLength = ['333', '33', '3'];
+    const underLength = ['1', '11', '111'];
+    const passing = ['22', '22', '22'];
+    expect(player.isValid(targetShip, overLength)).toBe('invalid coords length');
+    expect(player.isValid(targetShip, underLength)).toBe('invalid coords length');
+    expect(player.isValid(targetShip, passing)).not.toBe('invalid coords length');
+  })
+
+  test ("fails if the array length is not equal to 3", () => {
+    const overLength = ['33', '33', '33', '33'];
+    const underLength = ['1'];
+    const passing = ['66', '66', '66'];
+    expect(player.isValid(targetShip, overLength)).toBe('invalid array length');
+    expect(player.isValid(targetShip, underLength)).toBe('invalid array length');
+    expect(player.isValid(targetShip, passing)).not.toBe('invalid array length');
+  })
+
+  test ("fails if there's a NaN", () => {
+    const Nan = ['33', 'e3', '33'];
+    const Nan2 = ['12', '11', 'c1'];
+    const notNan = ['66', '66', '66'];
+    expect(player.isValid(targetShip, Nan)).toBe('NaN content');
+    expect(player.isValid(targetShip, Nan2)).toBe('NaN content');
+    expect(player.isValid(targetShip, notNan)).not.toBe('NaN content');
+  })
+
+  test ("fails if some coords is <= 0 and >= 9", () => {
+    const fail = ['33', '32', '-1'];
+    const fail2 = ['45', '44', '-4'];
+    const pass = ['66', '65', '64'];
+    expect(player.isValid(targetShip, fail)).not.toBe('ok');
+    expect(player.isValid(targetShip, fail2)).not.toBe('ok');
+    expect(player.isValid(targetShip, pass)).toBe('ok');
+  })
+
+  test ("fails if some coords is diagonal on board or have gaps between locations", () => {
+    const fail = ['56', '47', '48'];
+    const fail2 = ['90', '91', '93'];
+    const pass = ['90', '91', '92'];
+    expect(player.isValid(targetShip, fail)).toBe('invalid position');
+    expect(player.isValid(targetShip, fail2)).toBe('invalid position');
+    expect(player.isValid(targetShip, pass)).not.toBe('invalid position');
+  })
+
+  test ("fails if ship does not exist", () => {
+    const newShip = new Ship();
+    const pass = ['90', '91', '92'];
+    expect(player.isValid(newShip, pass)).toBe('ship do not exist');
+    expect(player.isValid(targetShip, pass)).not.toBe('ship do not exist');
+  })
+
+  test ("fails if invalid spaces is targeted", () => {
+    const fail = ['33', '34', '35'];
+    const fail2 = ['53', '54', '55'];
+    const pass = ['04', '05', '06'];
+    expect(player.isValid(targetShip, fail)).toBe('invalid coordinates');
+    expect(player.isValid(targetShip, fail2)).toBe('invalid coordinates');
+    expect(player.isValid(targetShip, pass)).toBe('ok');
   })
 })
