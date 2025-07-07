@@ -4,14 +4,10 @@ import { Ship } from './ship.js';
 describe ("placeShip methods", () => {
   let game;
   let ship1;
-  let ship2;
-  let ship3;
 
   beforeEach(() => {
     game = new Gameboard();
     ship1 = new Ship();
-    ship2 = new Ship();
-    ship3 = new Ship();
   })
 
   test ("placeShip set ship to shipToCoords and coordsToShip property", () => {
@@ -80,51 +76,59 @@ describe ("moveShip methods", () => {
     }
   })
 
-  test ("moveShip removes all targetShip's coordinates and replaces it with new coordinates", () => {
-    const newCoordinates = new Set(['80', '81', '82']);
+  test ("moveShip changes previous coordinates of targetShip", () => {
+    const newCoordinates = ['80', '81', '82'];
     const targetShip = ships[0];
 
-    const allLocations = game.shipToCoords.get(targetShip);
-    
     game.moveShip(targetShip, newCoordinates);
 
-    for (const coords of allLocations) {
-      expect(game.coordsToShip.get(coords)).toBeFalsy();
-    }
-    
-    for (const coords of newCoordinates) {
-      expect(game.coordsToShip.get(coords)).toBe(targetShip);
-    }
-
-    expect(game.shipToCoords.get(targetShip)).toEqual(newCoordinates);
+    expect(game.coordsToShip.get('81')).toBe(targetShip);
+    expect(game.coordsToShip.get('80')).toBe(targetShip);
+    expect(game.coordsToShip.get('82')).toBe(targetShip);
+    expect(game.coordsToShip.get('00')).toBeFalsy();
+    expect(game.coordsToShip.get('02')).toBeFalsy();
+    expect(game.coordsToShip.get('04')).toBeFalsy();
+    expect(game.shipToCoords.get(targetShip)).toEqual(new Set(newCoordinates));
   })
 
-  test ("removeOldCoordinates removes all targetShip's coordinates", () => {
+  test ("moveShip doesn't change non-targeted ships", () => {
     const targetShip = ships[0];
-    const notTarget = ships[1];
+    const notTarget1 = ships[1];
+    const notTarget2 = ships[2];
 
-    const allLocations = game.shipToCoords.get(targetShip);
+    const nonTargetLocations1 = game.shipToCoords.get(notTarget1);
+    const nonTargetLocations2 = game.shipToCoords.get(notTarget2);
 
-    game.removeOldCoordinates(targetShip);
-    for (const coords of allLocations) {
-      expect(game.coordsToShip.get(coords)).toBeFalsy();
+    game.moveShip(targetShip, ['80', '81', '82']);
+
+    for (const coords of nonTargetLocations1) {
+      expect(game.coordsToShip.get(coords)).toBe(notTarget1);
+    }
+
+    for (const coords of nonTargetLocations2) {
+      expect(game.coordsToShip.get(coords)).toBe(notTarget2);
     }
     
-    expect(game.shipToCoords.has(targetShip)).toBeFalsy();
+    expect(game.shipToCoords.get(notTarget1)).toEqual(new Set(['10', '12', '14']));
+    expect(game.shipToCoords.get(notTarget2)).toEqual(new Set(['20', '22', '24']));
   })
 
-  test ("removeOldCoordinates doesn't remove notTarget ships", () => {
-    const targetShip = ships[0];
-    const notTarget = ships[1];
+  test ("moveShip keeps the shipCoordinates property at 9", () => {
+    game.moveShip(ships[0], ['80', '81', '82']);
 
-    const allLocations = game.shipToCoords.get(notTarget);
+    expect(game.shipToCoords.size).toBe(3);
+    expect(game.coordsToShip.size).toBe(9);
+  })
 
-    game.removeOldCoordinates(targetShip);
-    for (const coords of allLocations) {
-      expect(game.coordsToShip.get(coords)).toBe(notTarget);
-    }
-    
-    expect(game.shipToCoords.get(notTarget)).toBe(allLocations);
+  test ("removeOldCoordinates removes past coordinates from coordsToShip Map", () => {
+    game.removeOldCoordinates(ships[0]);
+    expect(game.shipToCoords.get(ships[0])).toBeNull();
+    expect(game.coordsToShip.size).toBe(6);
+  })
+
+  test ("removeOldCoordinates doesn't remove the targeted ship", () => {
+    game.removeOldCoordinates(ships[0]);
+    expect(game.shipToCoords.size).toBe(3);
   })
 })
 
@@ -318,8 +322,6 @@ describe ("setInvalidSpaces method", () => {
     const result2 = invalidSpaces2.every(cords => invalidSet2.has(cords));
 
     expect(result2).toBeTruthy();
-
-    console.log(invalidSet2);
   })
 
   test ('setToRowCol returns array of real row col', () => {
