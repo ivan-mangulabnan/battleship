@@ -6,7 +6,8 @@ describe ('Player class instantiation', () => {
   let player;
 
   beforeEach(() => {
-    player = new Player();
+    const fixedRandom = () => 3;
+    player = new Player(fixedRandom);
   })
 
   test ('ships property should be instances of Ship class', () => {
@@ -31,7 +32,8 @@ describe ('createShips method', () => {
   let player;
 
   beforeEach(() => {
-    player = new Player();
+    const fixedRandom = () => 2;
+    player = new Player(fixedRandom);
   })
 
   test ('instantly creates 3 ships when player class is instantiated', () => {
@@ -43,7 +45,8 @@ describe ('placeShipsRandomly method', () => {
   let player;
 
   beforeEach(() => {
-    player = new Player();
+    const fixedRandom = () => 2;
+    player = new Player(fixedRandom);
   })
 
   test ('places all 3 ships of Player instance', () => {
@@ -79,7 +82,8 @@ describe ('getShipLocations method', () => {
   let location3;
 
   beforeEach(() => {
-    player = new Player();
+    const fixedRandom = () => 1;
+    player = new Player(fixedRandom);
     ship1 = player.ships[0];
     ship2 = player.ships[1];
     ship3 = player.ships[2];
@@ -139,7 +143,8 @@ describe ('Validations', () => {
   let ship, locationArr, rowColArr;
 
   beforeEach(() => {
-    player = new Player();
+    const fixedRandom = () => 1;
+    player = new Player(fixedRandom);
     ship = player.ships[0];
     locationArr = null;
     rowColArr = null;
@@ -240,7 +245,8 @@ describe ('isValid method', () => {
   let player, targetShip;
 
   beforeEach(() => {
-    player = new Player();
+    const fixedRandom = () => 1;
+    player = new Player(fixedRandom);
     targetShip = player.ships[0];
     player.relocateShip(targetShip, ['00', '01', '02']); // sets predictable locations
     player.relocateShip(player.ships[1], ['20', '21', '22']);
@@ -326,7 +332,8 @@ describe ('relocateShip method', () => {
   let targetShip;
 
   beforeEach(() => {
-    player = new Player();
+    const fixedRandom = () => 1;
+    player = new Player(fixedRandom);
     targetShip = player.ships[0];
     player.relocateShip(targetShip, ['00', '01', '02']); // sets predictable locations
     player.relocateShip(player.ships[1], ['20', '21', '22']);
