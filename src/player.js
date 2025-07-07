@@ -121,6 +121,13 @@ export class Player {
     return map;
   }
 
+  relocateShip (ship, locationArr) {
+    const isValid = this.isValid(ship, locationArr);
+
+    if (isValid !== 'ok') throw new Error('Invalid Coordinates');
+    else this.board.moveShip(ship, locationArr);
+  }
+
   isValid(ship, locationArr) {
     const isArray = this.isArray(locationArr);
     if (!isArray) return 'not array';
