@@ -1,4 +1,4 @@
-import { Player } from "./player.js";
+import { Player, RealPlayer } from "./player.js";
 import { Gameboard } from "./gameboard.js";
 import { Ship } from "./ship.js";
 
@@ -227,7 +227,7 @@ describe ('Validations', () => {
     const invalidLocation1 = [[1,0], [1,2], [1,4]];
     const invalidLocation2 = [[4,0], [4,1], [5,2]];
     const invalidLocation3 = [[0,9], [1,8], [2,7]];
-    const validLocation = [[6,0], [6,1], [6,2]];
+    const validLocation = [[6,0], [6,2], [6,1]];
 
     const isPositionValid1 = player.isPositionValid(invalidLocation1);
     const isPositionValid2 = player.isPositionValid(invalidLocation2);
@@ -350,4 +350,61 @@ describe ('relocateShip method', () => {
     const validLocation = ['21', '22', '23'];
     expect(() => player.relocateShip(targetShip, validLocation)).not.toThrow('Invalid Coordinates');
   });
+})
+
+// Real Player Class below.
+
+describe ("RealPlayer class initialization", () => {
+
+  test ('realPlayer class copies the dummy locations', () => {
+    const fixedRandom = () => 1;
+    const player = new Player(fixedRandom);
+    const shipLocations = player.getShipLocations();
+    const realPlayer = new RealPlayer(shipLocations);
+
+    const locationsArr = realPlayer.getShipLocations();
+    expect(locationsArr).toEqual(shipLocations);
+
+
+    const fixedRandom2 = () => 2;
+    const player2 = new Player(fixedRandom2);
+    const shipLocations2 = player2.getShipLocations();
+    const realPlayer2 = new RealPlayer(shipLocations2);
+
+    const locationsArr2 = realPlayer2.getShipLocations();
+    expect(locationsArr2).toEqual(shipLocations2);
+  })
+
+  test ("realPlayer copies respect locations", () => {
+    const fixedRandom = () => 1;
+    const player = new Player(fixedRandom);
+    player.relocateShip(player.ships[0], ['09', '08', '07']);
+    player.relocateShip(player.ships[2], ['57', '47', '37']);
+    player.relocateShip(player.ships[1], ['82', '83', '84']);
+    const shipLocations = player.getShipLocations();
+    const realPlayer = new RealPlayer(shipLocations);
+
+    const locations = realPlayer.getShipLocations();
+    expect(locations[0]).toEqual(['09', '08', '07']);
+    expect(locations[1]).toEqual(['82', '83', '84']);
+    expect(locations[2]).toEqual(['57', '47', '37']);
+  })
+
+  test ("realPlayer coordsToShip keys is exactly 9", () => {
+    const fixedRandom = () => 1;
+    const player = new Player(fixedRandom);
+    const shipLocations = player.getShipLocations();
+    const realPlayer = new RealPlayer(shipLocations);
+
+    expect(realPlayer.board.coordsToShip.size).toBe(9);
+  })
+
+  test ("realPlayer shipToCoords keys is exactly 3", () => {
+    const fixedRandom = () => 1;
+    const player = new Player(fixedRandom);
+    const shipLocations = player.getShipLocations();
+    const realPlayer = new RealPlayer(shipLocations);
+
+    expect(realPlayer.board.shipToCoords.size).toBe(3);
+  })
 })
