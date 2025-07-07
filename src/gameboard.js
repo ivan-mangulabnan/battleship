@@ -51,7 +51,7 @@ export class Gameboard {
       this.coordsToShip.delete(coords);
     }
 
-    this.shipToCoords.delete(ship);
+    this.shipToCoords.set(ship, null);
   }
 
   isCoordsValid (ship, coords) {
