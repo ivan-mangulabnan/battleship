@@ -200,15 +200,24 @@ export class Player {
 }
 
 export class RealPlayer extends Player {
-  constructor () { // shipLocations parameter
+  constructor (shipLocations) {
     super();
     this.type = 'player';
-    // this.updateLocations(shipLocations);
+    this.cleanBoard();
+    this.updateShipLocations(shipLocations);
   }
 
-  // updateLocations (shipLocations) {
+  cleanBoard () {
+    this.board = new Gameboard();
+  }
 
-  // }
+  updateShipLocations (shipLocations) {
+    for (let i = 0; i < 3; i++) {
+      this.board.placeShip(this.ships[i], shipLocations[i][0]);
+      this.board.placeShip(this.ships[i], shipLocations[i][1]);
+      this.board.placeShip(this.ships[i], shipLocations[i][2]);
+    }
+  }
 }
 
 export class ComputerPlayer extends Player {
