@@ -320,3 +320,27 @@ describe ('isValid method', () => {
     expect(player.isValid(targetShip, pass)).toBe('ok');
   })
 })
+
+describe ('relocateShip method', () => {
+  let player;
+  let targetShip;
+
+  beforeEach(() => {
+    player = new Player();
+    targetShip = player.ships[0];
+    player.relocateShip(targetShip, ['00', '01', '02']); // sets predictable locations
+    player.relocateShip(player.ships[1], ['20', '21', '22']);
+    player.relocateShip(player.ships[2], ['40', '41', '42']);
+  })
+
+  test ('throws Error when invalid coordinates.', () => {
+    const invalidLocation = ['53', '54', '55'];
+    expect(() => player.relocateShip(targetShip, invalidLocation)).toThrow('Invalid Coordinates');
+  })
+
+  test ("relocates ship if valid coordinates", () => {
+    targetShip = player.ships[1];
+    const validLocation = ['21', '22', '23'];
+    expect(() => player.relocateShip(targetShip, validLocation)).not.toThrow('Invalid Coordinates');
+  });
+})
