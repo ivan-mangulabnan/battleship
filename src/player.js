@@ -2,10 +2,10 @@ import { Gameboard } from "./gameboard.js";
 import { Ship } from './ship.js';
 
 export class Player {
-  constructor () {
+  constructor (randomFn = () => Math.floor(Math.random() * 10) + 1) {
     this.board = new Gameboard();
     this.ships = this.#createShips();
-    this.#placeShipsRandomly();
+    this.#placeShipsRandomly(randomFn);
   }
 
   #createShips () {
@@ -19,8 +19,8 @@ export class Player {
     return shipsArr;
   }
 
-  #placeShipsRandomly () {
-    const random = Math.floor(Math.random() * 10) + 1;
+  #placeShipsRandomly (randomFn) {
+    const random = randomFn();
 
     switch (random) {
       case 1:
@@ -41,9 +41,9 @@ export class Player {
 
       case 3:
         for (let i = 0; i < 3; i++) {
-          this.board.placeShip(this.ships[0], `${4}${i}`);
+          this.board.placeShip(this.ships[0], `4${i}`);
           this.board.placeShip(this.ships[1], `${6 + i}6`);
-          this.board.placeShip(this.ships[2], `${8}${7 - i}`);
+          this.board.placeShip(this.ships[2], `2${4 + i}`);
         }
         break;
 
