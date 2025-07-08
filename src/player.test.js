@@ -1,4 +1,4 @@
-import { Player, RealPlayer } from "./player.js";
+import { ComputerPlayer, Player, RealPlayer } from "./player.js";
 import { Gameboard } from "./gameboard.js";
 import { Ship } from "./ship.js";
 
@@ -406,5 +406,26 @@ describe ("RealPlayer class initialization", () => {
     const realPlayer = new RealPlayer(shipLocations);
 
     expect(realPlayer.board.shipToCoords.size).toBe(3);
+  })
+})
+
+// Computer Player below
+
+describe ("Computer class initialization", () => {
+let comp;
+
+  beforeEach(() => {
+    comp = new ComputerPlayer();
+  })
+  test ('Generates attack pattern', () => {
+    expect(comp.attackQueue.length).toBe(100);
+  })
+
+  test ("attacks", () => {
+    for (let i = 0; i < 100; i++) {
+      comp.attack();
+    }
+
+    expect(comp.attackQueue.length).toBe(0);
   })
 })
