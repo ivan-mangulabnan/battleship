@@ -1,0 +1,46 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 5rem;
+}
+
+header {
+  background-color: #333;
+  color: #eee;
+  font-size: 2rem;
+}
+
+.boards {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.board {
+  padding: 4px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  gap: 2px;
+  background-color: #aaa;
+
+  height: 450px;
+  width: 500px;
+  border-radius: 8px;
+}
+
+.modes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  gap: 2rem;
+}
+
+.cell {
+  border-radius: 2px;
+  background-color: #f1f1fa;
+}
