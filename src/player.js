@@ -224,5 +224,29 @@ export class ComputerPlayer extends Player {
   constructor () {
     super();
     this.type = 'computer';
+    this.attackQueue = this.#generateRandomAttackQueue();
+  }
+
+  #generateRandomAttackQueue () {
+    const coords = [];
+    for (let row = 0; row < 10; row++) {
+      for (let col = 0; col < 10; col++) {
+        coords.push(`${row}${col}`);
+      }
+    }
+
+    for (let i = coords.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [coords[i], coords[j]] = [coords[j], coords[i]];
+    }
+
+    return coords;
+  }
+
+  attack () {
+    const coordinates = this.attackQueue.pop();
+    if (!coordinates) return false;
+
+    return coordinates;
   }
 }
