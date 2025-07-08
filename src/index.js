@@ -1,2 +1,6 @@
 import './index.css';
-import './dom/dom.js';
+import { showBoard } from './dom/dom.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  showBoard();
+})
