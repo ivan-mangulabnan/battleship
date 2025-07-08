@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest index.test.js"
+    "test": "jest index.test.js",
+    "dev": "webpack serve"
   },
   "keywords": [],
   "author": "",
