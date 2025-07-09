@@ -1,4 +1,5 @@
 import './dom.css';
+import { Player } from '../player.js';
 
 function createBoard (parentEle) {
   const row = 10;
@@ -112,4 +113,14 @@ export function showPositionForm () {
 
   form.append(selectDiv, inputsWrapper, btnDiv);
   utils.appendChild(form);
+}
+
+export function showAnnouncements () {
+  const utils = document.querySelector('#utils');
+  utils.innerHTML = '';
+
+  const announcementDiv = document.createElement('div');
+  announcementDiv.classList.add('announcements');
+
+  utils.appendChild(announcementDiv);
 }
