@@ -1,6 +1,8 @@
 import './dom.css';
 import { Player } from '../player.js';
 
+const dummyPlayer = new Player();
+
 function createBoard (parentEle) {
   const row = 10;
   const col = 10;
@@ -123,4 +125,17 @@ export function showAnnouncements () {
   announcementDiv.classList.add('announcements');
 
   utils.appendChild(announcementDiv);
+}
+
+export function showPlayerShips () {
+  const shipsLocations = dummyPlayer.getShipLocations();
+
+  const shipNum = ['one', 'two', 'three'];
+  for (const location of shipsLocations) {
+    let num = shipNum.shift();
+    for (const coord of location) {
+      const targetCell = document.querySelector(`[data-row-col="${coord}"]`);
+      targetCell.classList.add(`ship-${num}`);
+    }
+  }
 }
