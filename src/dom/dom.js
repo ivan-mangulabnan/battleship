@@ -1,7 +1,7 @@
 import './dom.css';
 import { Player } from '../player.js';
 
-const dummyPlayer = new Player();
+export const dummyPlayer = new Player();
 
 function createBoard (parentEle) {
   const row = 10;
@@ -73,7 +73,9 @@ export function showPositionForm () {
     div.classList.add('ship-part');
 
     const row = document.createElement('input');
+    row.classList.add('row');
     const col = document.createElement('input');
+    col.classList.add('col');
 
     const setRestrictions = (input) => {
       input.type = 'text';
