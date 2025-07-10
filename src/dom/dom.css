@@ -64,3 +64,15 @@ header {
 .ship-three {
   background-color: #FFA50040;
 }
+
+.selected {
+  position: relative;
+}
+
+.selected::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 3px 3px #00ffff6e;
+  pointer-events: none;
+}
