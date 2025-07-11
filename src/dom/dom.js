@@ -26,6 +26,11 @@ export function showShipCoords (dummy) {
   changeDisplayCoords(dummy);
 }
 
+export function discardRepositioning () {
+  removeHightlight();
+  showPositionBtn();
+}
+
 // sub functions below.
 
 export function showPositionBtn () {
