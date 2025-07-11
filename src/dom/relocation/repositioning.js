@@ -122,10 +122,12 @@ function createBtn () {
   btnWrapper.classList.add('btn-wrapper');
 
   const disardBtn = document.createElement('button');
+  disardBtn.id = 'discardBtn';
   disardBtn.type = 'button';
   disardBtn.textContent = 'DISCARD';
 
   const applyBtn = document.createElement('button');
+  applyBtn.id = 'applyBtn';
   applyBtn.type = 'submit';
   applyBtn.textContent = 'APPLY';
 
