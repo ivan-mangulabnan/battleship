@@ -104,4 +104,20 @@ export function changeDisplayCoords (dummy) {
     row.value = Number(rowcols[i - 1][0]) + 1;
     col.value = Number(rowcols[i - 1][1]) + 1;
   }
+
+  addHighLight(target);
+}
+
+export function addHighLight (target) {
+  const formerHighlighted = document.querySelectorAll('.selected') || null;
+  if (formerHighlighted) {
+    for (const each of formerHighlighted) {
+      each.classList.remove('selected');
+    }
+  }
+
+  for (const coord of target) {
+    const targetCell = document.querySelector(`[data-row-col="${coord}"]`);
+    targetCell.classList.add('selected');
+  }
 }
