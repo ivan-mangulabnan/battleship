@@ -12,13 +12,18 @@ export let dummyPlayer;
 export function randomize () {
   removeShipsDisplay();
   dummyPlayer = new Player();
-  showPlayerShips();
+  showPlayerShips(dummyPlayer);
 }
 
-export function initialize () {
+export function initialize (dummy) {
   showBoard();
-  showPlayerShips();
+  showPlayerShips(dummy);
   showPositionBtn();
+}
+
+export function showShipCoords (dummy) {
+  relocateSection();
+  changeDisplayCoords(dummy);
 }
 
 // sub functions below.
@@ -56,8 +61,8 @@ export function showAnnouncements () {
   utils.appendChild(announcementDiv);
 }
 
-export function showPlayerShips () {
-  const shipsLocations = dummyPlayer.getShipLocations();
+export function showPlayerShips (dummy) {
+  const shipsLocations = dummy.getShipLocations();
 
   const shipNum = ['one', 'two', 'three'];
   for (const location of shipsLocations) {
@@ -73,5 +78,30 @@ export function removeShipsDisplay () {
   const shipCells = document.querySelectorAll('.ship');
   for (const cell of shipCells) {
     cell.className = 'cell';
+  }
+}
+
+export function changeDisplayCoords (dummy) {
+  const locations = dummy.getShipLocations();
+  const select = document.querySelector('#shipSelect');
+  const options = [...select.options].map(opt => opt.textContent);
+
+  const map = {};
+
+  for (let i = 0; i < locations.length; i++) {
+    map[options[i]] = locations[i];
+  }
+
+  const selected = select.value;
+  const target = map[selected];
+
+  const rowcols = target.map(cord => [...cord]);
+
+  for (let i = 1; i <= rowcols.length; i++) {
+    const row = document.querySelector(`#row${i}`);
+    const col = document.querySelector(`#col${i}`);
+
+    row.value = Number(rowcols[i - 1][0]) + 1;
+    col.value = Number(rowcols[i - 1][1]) + 1;
   }
 }
