@@ -108,14 +108,18 @@ export function changeDisplayCoords (dummy) {
   addHighLight(target);
 }
 
-export function addHighLight (target) {
+export function removeHightlight () {
   const formerHighlighted = document.querySelectorAll('.selected') || null;
   if (formerHighlighted) {
     for (const each of formerHighlighted) {
       each.classList.remove('selected');
     }
   }
+}
 
+export function addHighLight (target) {
+  removeHightlight();
+  
   for (const coord of target) {
     const targetCell = document.querySelector(`[data-row-col="${coord}"]`);
     targetCell.classList.add('selected');
