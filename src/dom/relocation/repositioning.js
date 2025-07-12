@@ -64,10 +64,10 @@ function createRowColInput (num) {
 
 function setRestrictions (inputArr) {
   for (const input of inputArr) {
-    input.type = 'text';
-    input.minLength = 1;
-    input.maxLength = 1;
-    input.pattern = '[0-9]';
+    input.type = 'number';
+    input.min = 1;
+    input.max = 10;
+    input.required = true;
   }
 }
 
