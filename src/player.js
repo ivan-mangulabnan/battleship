@@ -119,7 +119,10 @@ export class Player {
   relocateShip (ship, locationArr) {
     const isValid = this.isValid(ship, locationArr);
 
-    if (isValid !== 'ok') throw new Error('Invalid Coordinates');
+    if (isValid !== 'ok') {
+      return isValid;
+    }
+    
     else this.board.moveShip(ship, locationArr);
   }
 
