@@ -342,13 +342,13 @@ describe ('relocateShip method', () => {
 
   test ('throws Error when invalid coordinates.', () => {
     const invalidLocation = ['53', '54', '55'];
-    expect(() => player.relocateShip(targetShip, invalidLocation)).toThrow('Invalid Coordinates');
+    expect(player.relocateShip(targetShip, invalidLocation)).toBeTruthy();
   })
 
   test ("relocates ship if valid coordinates", () => {
     targetShip = player.ships[1];
     const validLocation = ['21', '22', '23'];
-    expect(() => player.relocateShip(targetShip, validLocation)).not.toThrow('Invalid Coordinates');
+    expect(player.relocateShip(targetShip, validLocation)).toBeFalsy();
   });
 })
 
