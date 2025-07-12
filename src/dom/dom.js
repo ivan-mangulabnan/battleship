@@ -2,6 +2,7 @@ import './dom.css';
 import { Player } from '../player.js';
 import { showBoard } from './board/create-board.js';
 import { relocateSection } from './relocation/repositioning.js';
+import { moveShip } from './ship-change.js';
 
 export let dummyPlayer;
 
@@ -28,6 +29,22 @@ export function showShipCoords (dummy) {
 
 export function discardRepositioning () {
   removeHightlight();
+  showPositionBtn();
+}
+
+export function applyShipChange (dummy, event) { 
+  event.preventDefault();
+
+  const isError = moveShip(dummy);
+
+  if (isError) {
+    alert(isError);
+    changeDisplayCoords(dummy);
+    return;
+  }
+
+  removeShipsDisplay();
+  showPlayerShips(dummy);
   showPositionBtn();
 }
 
